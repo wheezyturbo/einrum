@@ -45,18 +45,13 @@ jobs:
           distribution: 'temurin'
           cache: gradle
 
-      - name: Build Release APK
-        run: ./gradlew assembleRelease
-        env:
-          SIGNING_KEY_STORE: ${{ secrets.SIGNING_KEY_STORE }}
-          SIGNING_KEY_ALIAS: ${{ secrets.SIGNING_KEY_ALIAS }}
-          SIGNING_KEY_PASSWORD: ${{ secrets.SIGNING_KEY_PASSWORD }}
-          SIGNING_STORE_PASSWORD: ${{ secrets.SIGNING_STORE_PASSWORD }}
+      - name: Build Debug APK
+        run: ./gradlew assembleDebug
 
       - name: Create GitHub Release
         uses: softprops/action-gh-release@v2
         with:
-          files: app/build/outputs/apk/release/*.apk
+          files: app/build/outputs/apk/debug/*.apk
           draft: false
           prerelease: false
         env:
