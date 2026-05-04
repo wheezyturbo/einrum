@@ -1,4 +1,4 @@
-package com.aura.core.ai
+package com.einrum.core.ai
 
 import org.koin.dsl.module
 

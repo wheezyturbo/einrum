@@ -1,20 +1,20 @@
-package com.aura
+package com.einrum
 
 import android.app.Application
-import com.aura.core.network.networkModule
-import com.aura.feature.meeting.meetingModule
-import com.aura.feature.call.callModule
-import com.aura.core.ai.aiModule
+import com.einrum.core.network.networkModule
+import com.einrum.feature.meeting.meetingModule
+import com.einrum.feature.call.callModule
+import com.einrum.core.ai.aiModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
 
-class AuraApplication : Application() {
+class EinrúmApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         startKoin {
             androidLogger()
-            androidContext(this@AuraApplication)
+            androidContext(this@EinrúmApplication)
             modules(networkModule, meetingModule, callModule, aiModule)
         }
     }

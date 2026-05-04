@@ -15,3 +15,8 @@
 - **Security Hardening**: Updated `GEMINI.md` with prompt injection and code integrity protocols.
 - **DevOps**: Implemented GitHub Actions CI/CD pipeline for automated builds and releases.
 - **DevOps Fix**: Switched to `assembleDebug` for releases to enable pipeline success without GitHub Secrets.
+
+### 2026-05-04 (Continued)
+- **Global Rebranding**: Renamed application to **Einrúm** (Icelandic for Privacy).
+- **Refactoring**: Updated all package names from `com.aura` to `com.einrum`.
+- **Documentation**: Updated `GEMINI.md`, `agents.md`, and CI/CD workflows to reflect the new brand.

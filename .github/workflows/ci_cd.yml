@@ -1,4 +1,4 @@
-name: Aura CI/CD Pipeline
+name: Einrúm CI/CD Pipeline
 
 on:
   push:

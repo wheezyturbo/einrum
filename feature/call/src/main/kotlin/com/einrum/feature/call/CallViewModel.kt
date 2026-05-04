@@ -1,6 +1,6 @@
-package com.aura.feature.call
+package com.einrum.feature.call
 
-import com.aura.core.ai.AiService
+import com.einrum.core.ai.AiService
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableSharedFlow

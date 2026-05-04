@@ -1,4 +1,4 @@
-package com.aura.feature.meeting
+package com.einrum.feature.meeting
 
 import androidx.compose.foundation.layout.*
 import androidx.compose.material3.*
@@ -40,7 +40,7 @@ private fun LobbyContent(
         modifier = Modifier.fillMaxSize(),
         topBar = {
             CenterAlignedTopAppBar(
-                title = { Text("Aura Video", style = MaterialTheme.typography.headlineMedium) }
+                title = { Text("Einrúm Video", style = MaterialTheme.typography.headlineMedium) }
             )
         }
     ) { padding ->

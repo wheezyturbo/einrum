@@ -1,4 +1,4 @@
-package com.aura.feature.call
+package com.einrum.feature.call
 
 import androidx.compose.runtime.Immutable
 

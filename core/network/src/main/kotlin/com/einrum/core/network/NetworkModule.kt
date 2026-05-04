@@ -1,4 +1,4 @@
-package com.aura.core.network
+package com.einrum.core.network
 
 import org.koin.dsl.module
 

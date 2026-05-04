@@ -1,4 +1,4 @@
-package com.aura.feature.meeting
+package com.einrum.feature.meeting
 
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope

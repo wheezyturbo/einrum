@@ -1,6 +1,6 @@
-package com.aura.feature.meeting
+package com.einrum.feature.meeting
 
-import com.aura.core.network.MeetingService
+import com.einrum.core.network.MeetingService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher

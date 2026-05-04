@@ -1,4 +1,4 @@
-package com.aura.feature.call
+package com.einrum.feature.call
 
 import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module

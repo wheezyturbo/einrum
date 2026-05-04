@@ -1,4 +1,4 @@
-package com.aura
+package com.einrum
 
 import android.os.Bundle
 import androidx.activity.ComponentActivity
@@ -13,10 +13,10 @@ import androidx.compose.runtime.getValue
 import androidx.compose.runtime.mutableStateOf
 import androidx.compose.runtime.remember
 import androidx.compose.runtime.setValue
-import com.aura.feature.meeting.LobbyScreen
-import com.aura.feature.meeting.LobbyViewModel
-import com.aura.feature.call.CallScreen
-import com.aura.feature.call.CallViewModel
+import com.einrum.feature.meeting.LobbyScreen
+import com.einrum.feature.meeting.LobbyViewModel
+import com.einrum.feature.call.CallScreen
+import com.einrum.feature.call.CallViewModel
 import org.koin.androidx.compose.koinViewModel
 import org.koin.core.parameter.parametersOf
 
