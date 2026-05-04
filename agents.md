@@ -40,3 +40,7 @@
 - **Gradle Build System**: Populated all `build.gradle.kts` and `settings.gradle.kts` files.
 - **Project Structure**: Formally linked all modules (`app`, `core`, `feature`) in the build system.
 - **Dependency Management**: Centralized all dependencies (including test libraries) in `libs.versions.toml`.
+
+### 2026-05-04 (Gradle Repository Fix)
+- **Settings Configuration**: Added `pluginManagement` and `dependencyResolutionManagement` to `settings.gradle.kts`.
+- **Repository Resolution**: Configured Google and Maven Central repositories to fix plugin resolution failure in CI/CD.
