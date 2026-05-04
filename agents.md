@@ -59,3 +59,8 @@
 - **Package Reconciliation**: Renamed `EinrúmApplication` to `EinrumApplication` to match the manifest and avoid non-ASCII character issues in build tools.
 - **Dependency Injection**: Restored missing `MeetingService` injection in `LobbyViewModel` which was lost during refactoring.
 - **Global Validation**: Verified package consistency across all modules after rebranding.
+
+### 2026-05-04 (Surgical Code Fix)
+- **Syntax Fix**: Cleaned up `LobbyViewModel.kt` to remove trailing garbage code and truncated snippets.
+- **Dependency Update**: Added `androidx.compose.material:material-icons-extended` to the version catalog and feature modules to resolve unresolved icon references (`Mic`, `Videocam`, etc.).
+- **API Hardening**: Added `@OptIn(ExperimentalMaterial3Api::class)` to `LobbyScreen.kt` to satisfy compiler requirements for Material 3 components.

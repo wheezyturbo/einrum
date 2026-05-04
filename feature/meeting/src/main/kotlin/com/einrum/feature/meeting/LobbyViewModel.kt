@@ -32,13 +32,11 @@ class LobbyViewModel(
     }
 
     private fun updateMeetingId(id: String) {
-        // Sanitize: Only alphanumeric, max length 6
         val sanitizedId = id.filter { it.isLetterOrDigit() }.take(6)
         _state.update { it.copy(meetingId = sanitizedId, error = null) }
     }
 
     private fun updateGuestName(name: String) {
-        // Sanitize: No special characters, max length 20
         val sanitizedName = name.filter { it.isLetterOrDigit() || it.isWhitespace() }.take(20)
         _state.update { it.copy(guestName = sanitizedName, error = null) }
     }
@@ -80,10 +78,6 @@ class LobbyViewModel(
             val newId = meetingService.createMeeting()
             _state.update { it.copy(isJoining = false, meetingId = newId) }
             _effects.emit(LobbyEffect.NavigateToCall(newId))
-        }
-    }
-}
-.NavigateToCall(newId))
         }
     }
 }
