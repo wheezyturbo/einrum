@@ -44,3 +44,7 @@
 ### 2026-05-04 (Gradle Repository Fix)
 - **Settings Configuration**: Added `pluginManagement` and `dependencyResolutionManagement` to `settings.gradle.kts`.
 - **Repository Resolution**: Configured Google and Maven Central repositories to fix plugin resolution failure in CI/CD.
+
+### 2026-05-04 (Release Unblocking)
+- **Android Manifest**: Created `AndroidManifest.xml` with necessary permissions (Internet, Camera, Audio).
+- **CI/CD Optimization**: Disabled static analysis (lint/detekt) to expedite the APK release process as requested.
