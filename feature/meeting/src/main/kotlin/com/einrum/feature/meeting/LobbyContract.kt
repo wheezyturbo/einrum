@@ -5,12 +5,14 @@ import androidx.compose.runtime.Immutable
 @Immutable
 data class LobbyState(
     val meetingId: String = "",
+    val guestName: String = "",
     val isJoining: Boolean = false,
     val error: String? = null
 )
 
 sealed interface LobbyIntent {
     data class UpdateMeetingId(val id: String) : LobbyIntent
+    data class UpdateGuestName(val name: String) : LobbyIntent
     data object JoinMeeting : LobbyIntent
     data object CreateMeeting : LobbyIntent
 }

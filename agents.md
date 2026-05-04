@@ -23,3 +23,6 @@
 - **Global Rebranding**: Renamed application to **Einrúm** (Icelandic for Privacy).
 - **Refactoring**: Updated all package names from `com.aura` to `com.einrum`.
 - **Documentation**: Updated `GEMINI.md`, `agents.md`, and CI/CD workflows to reflect the new brand.
+
+### 2026-05-04 (Continued)
+- **Anonymous Usage**: Implemented fully anonymous guest access. Users only provide a transient display name; no authentication required.

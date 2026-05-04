@@ -22,6 +22,7 @@ class LobbyViewModel : ViewModel() {
     fun onIntent(intent: LobbyIntent) {
         when (intent) {
             is LobbyIntent.UpdateMeetingId -> updateMeetingId(intent.id)
+            is LobbyIntent.UpdateGuestName -> updateGuestName(intent.name)
             LobbyIntent.JoinMeeting -> joinMeeting()
             LobbyIntent.CreateMeeting -> createMeeting()
         }
@@ -31,8 +32,21 @@ class LobbyViewModel : ViewModel() {
         _state.update { it.copy(meetingId = id, error = null) }
     }
 
+    private fun updateGuestName(name: String) {
+        _state.update { it.copy(guestName = name, error = null) }
+    }
+
     private fun joinMeeting() {
         val currentId = _state.value.meetingId
+        val guestName = _state.value.guestName
+
+        if (guestName.isBlank()) {
+            viewModelScope.launch {
+                _effects.emit(LobbyEffect.ShowError("Please enter a display name"))
+            }
+            return
+        }
+        
         if (currentId.isBlank()) {
             viewModelScope.launch {
                 _effects.emit(LobbyEffect.ShowError("Meeting ID cannot be empty"))

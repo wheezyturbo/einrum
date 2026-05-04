@@ -60,6 +60,17 @@ private fun LobbyContent(
             )
 
             OutlinedTextField(
+                value = state.guestName,
+                onValueChange = { onIntent(LobbyIntent.UpdateGuestName(it)) },
+                label = { Text("Your Display Name") },
+                modifier = Modifier.fillMaxWidth(),
+                singleLine = true,
+                enabled = !state.isJoining
+            )
+
+            Spacer(modifier = Modifier.height(16.dp))
+
+            OutlinedTextField(
                 value = state.meetingId,
                 onValueChange = { onIntent(LobbyIntent.UpdateMeetingId(it)) },
                 label = { Text("Enter meeting code") },
@@ -73,7 +84,7 @@ private fun LobbyContent(
             Button(
                 onClick = { onIntent(LobbyIntent.JoinMeeting) },
                 modifier = Modifier.fillMaxWidth(),
-                enabled = !state.isJoining && state.meetingId.isNotBlank()
+                enabled = !state.isJoining && state.meetingId.isNotBlank() && state.guestName.isNotBlank()
             ) {
                 if (state.isJoining) {
                     CircularProgressIndicator(modifier = Modifier.size(24.dp))
