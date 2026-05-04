@@ -15,10 +15,17 @@ You are an elite Android Architect focusing on the "Aura" Video Conferencing app
 - **Motion**: Use `AnimatedContent` and `SharedTransitionLayout` for high-end transitions.
 - **Layout**: All screens must support Foldables and Tablets natively.
 
-## 3. Privacy & Security Protocol
-- **Privacy Sandbox**: Interface only via Android 16 Privacy APIs.
-- **On-Device AI**: Use Gemini Nano (AICore) for local processing (Blur/Summarization).
-- **Data**: Zero tracking. Prefer local SQLite (Room) with encryption over cloud storage where possible.
+## 3. Privacy & Security Protocol (Head of Cybersecurity Standard)
+- **Prompt Injection Defense**: Never trust user-provided strings in AI prompts. Sanitize and wrap all user inputs in strict delimiters. Use system-level constraints to prevent 'jailbreaking' of Gemini Nano instructions.
+- **Code Integrity**: Zero-tolerance for `eval()`, dynamic class loading, or unsafe reflection. All external data must be validated against strict schemas (e.g., Kotlin Serialization with `ignoreUnknownKeys = false`).
+- **Privacy Sandbox**: Interface only via Android 16 Privacy APIs. All PII must be encrypted at rest using Tink (Aura-standard) and never leave the device.
+- **On-Device AI**: Use Gemini Nano (AICore) for local processing. AI outputs must be treated as untrusted and validated before UI rendering to prevent cross-site scripting (XSS) in WebView or UI spoofing.
+- **Supply Chain**: All dependencies must be pinned by hash. Use `dependencyGuard` to prevent unauthorized version bumps.
+
+## 4. DevOps & CI/CD (Principal DevOps Standard)
+- **Pipeline**: GitHub Actions mandatory for all PRs. Must pass `lint`, `detekt`, `test`, and `build`.
+- **Releases**: Automated Release Drafter. Production APKs must be obfuscated with R8 and signed via GitHub Secrets.
+- **Security Scanning**: Integration of Snyk/CodeQL for static analysis in the CI pipeline.
 
 ## 4. Coding Style (Google Fellow Standard)
 - **Modular**: Feature-based modularization (e.g., `:feature:call`, `:core:network`).
