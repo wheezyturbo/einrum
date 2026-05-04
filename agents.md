@@ -14,3 +14,4 @@
 - **On-Device AI**: Integrated Gemini Nano for background blur toggle.
 - **Security Hardening**: Updated `GEMINI.md` with prompt injection and code integrity protocols.
 - **DevOps**: Implemented GitHub Actions CI/CD pipeline for automated builds and releases.
+- **DevOps Fix**: Switched to `assembleDebug` for releases to enable pipeline success without GitHub Secrets.
