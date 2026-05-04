@@ -1,5 +1,8 @@
 # Agent Instructions & Log
 
+## Repository
+- **Remote**: \`git@github.com:wheezyturbo/einrum.git\`
+
 ## Core Mandates
 - **Commit Pattern**: Perform a `git commit` after every cohesive development step (e.g., finishing a contract, a ViewModel, or a UI screen).
 - **Security**: Adhere to the elite cybersecurity protocols defined in `GEMINI.md`.
