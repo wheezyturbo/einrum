@@ -29,11 +29,15 @@ class LobbyViewModel : ViewModel() {
     }
 
     private fun updateMeetingId(id: String) {
-        _state.update { it.copy(meetingId = id, error = null) }
+        // Sanitize: Only alphanumeric, max length 6
+        val sanitizedId = id.filter { it.isLetterOrDigit() }.take(6)
+        _state.update { it.copy(meetingId = sanitizedId, error = null) }
     }
 
     private fun updateGuestName(name: String) {
-        _state.update { it.copy(guestName = name, error = null) }
+        // Sanitize: No special characters, max length 20
+        val sanitizedName = name.filter { it.isLetterOrDigit() || it.isWhitespace() }.take(20)
+        _state.update { it.copy(guestName = sanitizedName, error = null) }
     }
 
     private fun joinMeeting() {

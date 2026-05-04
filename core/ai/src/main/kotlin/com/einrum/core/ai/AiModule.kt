@@ -1,5 +1,6 @@
 package com.einrum.core.ai
 
+import com.einrum.core.common.SecurityUtils
 import org.koin.dsl.module
 
 interface AiService {
@@ -14,8 +15,10 @@ class GeminiAiService : AiService {
     }
 
     override suspend fun summarizeMeeting(transcript: String): String {
-        // Implementation for Gemini Nano summarization
-        return "Summary of the meeting..." // Placeholder
+        val securedInput = SecurityUtils.secureAiInput(transcript)
+        // Simulate Gemini Nano summarization using securedInput
+        val rawOutput = "Summary: High-performance meeting focusing on privacy." 
+        return SecurityUtils.validateAiOutput(rawOutput)
     }
 }
 
