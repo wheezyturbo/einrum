@@ -1,5 +1,6 @@
 package com.einrum.feature.meeting
 
+import com.einrum.core.network.MeetingService
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -11,7 +12,9 @@ import kotlinx.coroutines.flow.asStateFlow
 import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
-class LobbyViewModel : ViewModel() {
+class LobbyViewModel(
+    private val meetingService: MeetingService
+) : ViewModel() {
 
     private val _state = MutableStateFlow(LobbyState())
     val state: StateFlow<LobbyState> = _state.asStateFlow()

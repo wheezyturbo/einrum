@@ -9,12 +9,12 @@ import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
 
-class EinrúmApplication : Application() {
+class EinrumApplication : Application() {
     override fun onCreate() {
         super.onCreate()
         startKoin {
             androidLogger()
-            androidContext(this@EinrúmApplication)
+            androidContext(this@EinrumApplication)
             modules(networkModule, meetingModule, callModule, aiModule)
         }
     }
