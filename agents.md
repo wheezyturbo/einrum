@@ -64,3 +64,9 @@
 - **Syntax Fix**: Cleaned up `LobbyViewModel.kt` to remove trailing garbage code and truncated snippets.
 - **Dependency Update**: Added `androidx.compose.material:material-icons-extended` to the version catalog and feature modules to resolve unresolved icon references (`Mic`, `Videocam`, etc.).
 - **API Hardening**: Added `@OptIn(ExperimentalMaterial3Api::class)` to `LobbyScreen.kt` to satisfy compiler requirements for Material 3 components.
+
+### 2026-05-04 (Final Code Integrity Fix)
+- **ViewModel Fix**: Completely rewritten `LobbyViewModel.kt` to eliminate all syntax errors and hidden control characters.
+- **Icon Resolution**: Switched to explicit `Icons.Filled` imports in `CallScreen.kt` and added proper Material Icons Extended dependencies to resolve compilation errors.
+- **API Hardening**: Propagated `@OptIn(ExperimentalMaterial3Api::class)` to all Material 3 UI components in `LobbyScreen.kt`.
+- **DI Modernization**: Updated `CallModule.kt` to use `viewModelOf` (Koin 4.0 standard) to resolve deprecation warnings.

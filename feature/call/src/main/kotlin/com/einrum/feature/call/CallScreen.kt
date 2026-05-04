@@ -7,7 +7,12 @@ import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
 import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.*
+import androidx.compose.material.icons.filled.BlurOn
+import androidx.compose.material.icons.filled.CallEnd
+import androidx.compose.material.icons.filled.Mic
+import androidx.compose.material.icons.filled.MicOff
+import androidx.compose.material.icons.filled.Videocam
+import androidx.compose.material.icons.filled.VideocamOff
 import androidx.compose.material3.*
 import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
@@ -126,7 +131,7 @@ private fun CallControls(
         ) {
             IconButton(onClick = { onIntent(CallIntent.ToggleMic) }) {
                 Icon(
-                    imageVector = if (isMicEnabled) Icons.Default.Mic else Icons.Default.MicOff,
+                    imageVector = if (isMicEnabled) Icons.Filled.Mic else Icons.Filled.MicOff,
                     contentDescription = "Toggle Mic",
                     tint = if (isMicEnabled) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.error
                 )
@@ -134,7 +139,7 @@ private fun CallControls(
 
             IconButton(onClick = { onIntent(CallIntent.ToggleCamera) }) {
                 Icon(
-                    imageVector = if (isCameraEnabled) Icons.Default.Videocam else Icons.Default.VideocamOff,
+                    imageVector = if (isCameraEnabled) Icons.Filled.Videocam else Icons.Filled.VideocamOff,
                     contentDescription = "Toggle Camera",
                     tint = if (isCameraEnabled) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.error
                 )
@@ -142,7 +147,7 @@ private fun CallControls(
 
             IconButton(onClick = { onIntent(CallIntent.ToggleBlur) }) {
                 Icon(
-                    imageVector = Icons.Default.BlurOn,
+                    imageVector = Icons.Filled.BlurOn,
                     contentDescription = "Toggle Blur",
                     tint = if (isBlurEnabled) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
                 )
@@ -155,7 +160,7 @@ private fun CallControls(
                 )
             ) {
                 Icon(
-                    imageVector = Icons.Default.CallEnd,
+                    imageVector = Icons.Filled.CallEnd,
                     contentDescription = "Leave Call",
                     tint = MaterialTheme.colorScheme.onError
                 )
