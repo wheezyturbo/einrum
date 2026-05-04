@@ -34,3 +34,4 @@
 - **AI Output Validation**: Implemented schema-based validation for all AI-generated content.
 - **Screen Security**: Applied `FLAG_SECURE` across the application to prevent unauthorized screenshots and recordings.
 - **ProGuard/R8**: Added secure ProGuard rules to obfuscate code and remove logging in production.
+- **CI/CD Fix**: Restored missing Gradle wrapper files to fix pipeline execution failure.
