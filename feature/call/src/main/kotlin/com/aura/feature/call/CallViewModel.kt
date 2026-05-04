@@ -1,5 +1,6 @@
 package com.aura.feature.call
 
+import com.aura.core.ai.AiService
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -12,7 +13,8 @@ import kotlinx.coroutines.flow.update
 import kotlinx.coroutines.launch
 
 class CallViewModel(
-    private val meetingId: String
+    private val meetingId: String,
+    private val aiService: AiService
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(CallState(meetingId = meetingId))
@@ -40,6 +42,7 @@ class CallViewModel(
         when (intent) {
             CallIntent.ToggleMic -> toggleMic()
             CallIntent.ToggleCamera -> toggleCamera()
+            CallIntent.ToggleBlur -> toggleBlur()
             CallIntent.LeaveCall -> leaveCall()
         }
     }
@@ -50,6 +53,10 @@ class CallViewModel(
 
     private fun toggleCamera() {
         _state.update { it.copy(isCameraEnabled = !it.isCameraEnabled) }
+    }
+
+    private fun toggleBlur() {
+        _state.update { it.copy(isBlurEnabled = !it.isBlurEnabled) }
     }
 
     private fun leaveCall() {

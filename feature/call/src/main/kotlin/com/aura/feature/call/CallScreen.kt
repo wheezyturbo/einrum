@@ -62,6 +62,7 @@ private fun CallContent(
         CallControls(
             isMicEnabled = state.isMicEnabled,
             isCameraEnabled = state.isCameraEnabled,
+            isBlurEnabled = state.isBlurEnabled,
             onIntent = onIntent,
             modifier = Modifier
                 .align(Alignment.BottomCenter)
@@ -108,6 +109,7 @@ private fun ParticipantItem(participant: Participant) {
 private fun CallControls(
     isMicEnabled: Boolean,
     isCameraEnabled: Boolean,
+    isBlurEnabled: Boolean,
     onIntent: (CallIntent) -> Unit,
     modifier: Modifier = Modifier
 ) {
@@ -135,6 +137,14 @@ private fun CallControls(
                     imageVector = if (isCameraEnabled) Icons.Default.Videocam else Icons.Default.VideocamOff,
                     contentDescription = "Toggle Camera",
                     tint = if (isCameraEnabled) MaterialTheme.colorScheme.onSurface else MaterialTheme.colorScheme.error
+                )
+            }
+
+            IconButton(onClick = { onIntent(CallIntent.ToggleBlur) }) {
+                Icon(
+                    imageVector = Icons.Default.BlurOn,
+                    contentDescription = "Toggle Blur",
+                    tint = if (isBlurEnabled) MaterialTheme.colorScheme.primary else MaterialTheme.colorScheme.onSurface
                 )
             }
 

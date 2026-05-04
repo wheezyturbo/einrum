@@ -7,6 +7,7 @@ data class CallState(
     val meetingId: String = "",
     val isMicEnabled: Boolean = true,
     val isCameraEnabled: Boolean = true,
+    val isBlurEnabled: Boolean = false,
     val participants: List<Participant> = emptyList(),
     val localStream: VideoStream? = null
 )
@@ -28,6 +29,7 @@ sealed interface VideoStream {
 sealed interface CallIntent {
     data object ToggleMic : CallIntent
     data object ToggleCamera : CallIntent
+    data object ToggleBlur : CallIntent
     data object LeaveCall : CallIntent
 }
 
