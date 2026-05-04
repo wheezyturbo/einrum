@@ -70,3 +70,7 @@
 - **Icon Resolution**: Switched to explicit `Icons.Filled` imports in `CallScreen.kt` and added proper Material Icons Extended dependencies to resolve compilation errors.
 - **API Hardening**: Propagated `@OptIn(ExperimentalMaterial3Api::class)` to all Material 3 UI components in `LobbyScreen.kt`.
 - **DI Modernization**: Updated `CallModule.kt` to use `viewModelOf` (Koin 4.0 standard) to resolve deprecation warnings.
+
+### 2026-05-04 (MainActivity Syntax Fix)
+- **Syntax Resolution**: Fixed a corrupted `MainActivity.kt` where omission placeholders (`...`) were accidentally committed, causing compilation failures in the `setContent` block.
+- **Code Integrity**: Verified the full structure of the `MainActivity` to ensure proper Composable context and parameter passing for screen transitions.
