@@ -8,9 +8,17 @@ import androidx.compose.foundation.layout.fillMaxSize
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.Surface
 import androidx.compose.ui.Modifier
+import androidx.compose.animation.AnimatedContent
+import androidx.compose.runtime.getValue
+import androidx.compose.runtime.mutableStateOf
+import androidx.compose.runtime.remember
+import androidx.compose.runtime.setValue
 import com.aura.feature.meeting.LobbyScreen
 import com.aura.feature.meeting.LobbyViewModel
+import com.aura.feature.call.CallScreen
+import com.aura.feature.call.CallViewModel
 import org.koin.androidx.compose.koinViewModel
+import org.koin.core.parameter.parametersOf
 
 class MainActivity : ComponentActivity() {
     override fun onCreate(savedInstanceState: Bundle?) {
@@ -18,17 +26,30 @@ class MainActivity : ComponentActivity() {
         enableEdgeToEdge()
         setContent {
             MaterialTheme {
+                var currentMeetingId by remember { mutableStateOf<String?>(null) }
+
                 Surface(
                     modifier = Modifier.fillMaxSize(),
                     color = MaterialTheme.colorScheme.background
                 ) {
-                    val lobbyViewModel: LobbyViewModel = koinViewModel()
-                    LobbyScreen(
-                        viewModel = lobbyViewModel,
-                        onNavigateToCall = { meetingId ->
-                            // TODO: Handle navigation to call screen
+                    AnimatedContent(
+                        targetState = currentMeetingId,
+                        label = "ScreenTransition"
+                    ) { meetingId ->
+                        if (meetingId == null) {
+                            val lobbyViewModel: LobbyViewModel = koinViewModel()
+                            LobbyScreen(
+                                viewModel = lobbyViewModel,
+                                onNavigateToCall = { id -> currentMeetingId = id }
+                            )
+                        } else {
+                            val callViewModel: CallViewModel = koinViewModel { parametersOf(meetingId) }
+                            CallScreen(
+                                viewModel = callViewModel,
+                                onNavigateBack = { currentMeetingId = null }
+                            )
                         }
-                    )
+                    }
                 }
             }
         }

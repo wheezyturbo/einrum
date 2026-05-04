@@ -3,6 +3,7 @@ package com.aura
 import android.app.Application
 import com.aura.core.network.networkModule
 import com.aura.feature.meeting.meetingModule
+import com.aura.feature.call.callModule
 import org.koin.android.ext.koin.androidContext
 import org.koin.android.ext.koin.androidLogger
 import org.koin.core.context.startKoin
@@ -13,7 +14,7 @@ class AuraApplication : Application() {
         startKoin {
             androidLogger()
             androidContext(this@AuraApplication)
-            modules(networkModule, meetingModule)
+            modules(networkModule, meetingModule, callModule)
         }
     }
 }
