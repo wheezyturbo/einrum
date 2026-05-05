@@ -6,6 +6,7 @@ import androidx.compose.foundation.lazy.grid.GridCells
 import androidx.compose.foundation.lazy.grid.LazyVerticalGrid
 import androidx.compose.foundation.lazy.grid.items
 import androidx.compose.foundation.shape.CircleShape
+import androidx.compose.foundation.shape.RoundedCornerShape
 import androidx.compose.material.icons.Icons
 import androidx.compose.material.icons.filled.BlurOn
 import androidx.compose.material.icons.filled.CallEnd
@@ -18,6 +19,7 @@ import androidx.compose.runtime.*
 import androidx.compose.ui.Alignment
 import androidx.compose.ui.Modifier
 import androidx.compose.ui.draw.clip
+import androidx.compose.ui.graphics.Brush
 import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
@@ -49,12 +51,26 @@ private fun CallContent(
     state: CallState,
     onIntent: (CallIntent) -> Unit
 ) {
-    Box(modifier = Modifier.fillMaxSize().background(Color.Black)) {
+    val bg = Brush.verticalGradient(
+        listOf(Color(0xFF04070E), Color(0xFF101726), Color(0xFF1D2B45))
+    )
+    Box(modifier = Modifier.fillMaxSize().background(bg)) {
+        Text(
+            text = "Meeting ${state.meetingId}",
+            modifier = Modifier
+                .align(Alignment.TopStart)
+                .padding(16.dp),
+            style = MaterialTheme.typography.titleLarge,
+            color = Color.White
+        )
+
         // Participant Grid
         LazyVerticalGrid(
             columns = GridCells.Adaptive(minSize = 160.dp),
-            modifier = Modifier.fillMaxSize(),
-            contentPadding = PaddingValues(8.dp),
+            modifier = Modifier
+                .fillMaxSize()
+                .padding(top = 56.dp),
+            contentPadding = PaddingValues(12.dp),
             horizontalArrangement = Arrangement.spacedBy(8.dp),
             verticalArrangement = Arrangement.spacedBy(8.dp)
         ) {
@@ -81,13 +97,13 @@ private fun ParticipantItem(participant: Participant) {
     Surface(
         modifier = Modifier
             .aspectRatio(1f)
-            .clip(MaterialTheme.shapes.medium),
-        color = Color.DarkGray
+            .clip(RoundedCornerShape(18.dp)),
+        color = Color(0x332A3446)
     ) {
         Box(contentAlignment = Alignment.Center) {
             if (participant.isCameraEnabled) {
                 // Placeholder for Video Stream
-                Box(modifier = Modifier.fillMaxSize().background(Color.Gray))
+                Box(modifier = Modifier.fillMaxSize().background(Color(0xFF3A4B68)))
             } else {
                 Text(
                     text = participant.name.take(1),
@@ -101,7 +117,7 @@ private fun ParticipantItem(participant: Participant) {
                 modifier = Modifier
                     .align(Alignment.BottomStart)
                     .padding(8.dp)
-                    .background(Color.Black.copy(alpha = 0.6f), CircleShape)
+                    .background(Color.Black.copy(alpha = 0.45f), CircleShape)
                     .padding(horizontal = 8.dp, vertical = 4.dp),
                 color = Color.White,
                 style = MaterialTheme.typography.labelSmall
