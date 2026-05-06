@@ -1,7 +1,6 @@
 package com.einrum.feature.meeting
 
 import com.einrum.core.network.MeetingService
-import com.einrum.core.network.MeetingContact
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -124,13 +123,13 @@ class LobbyViewModel(
 
     private fun refreshContacts() {
         viewModelScope.launch {
-            val contacts = meetingService.getRecentContacts().map(MeetingContact::toSavedContact)
+            val contacts = meetingService.getRecentContacts().map { contact ->
+                SavedContact(
+                    name = contact.name,
+                    meetingId = contact.meetingId
+                )
+            }
             _state.update { it.copy(contacts = contacts) }
         }
     }
-
-    private fun MeetingContact.toSavedContact(): SavedContact = SavedContact(
-        name = name,
-        meetingId = meetingId
-    )
 }
