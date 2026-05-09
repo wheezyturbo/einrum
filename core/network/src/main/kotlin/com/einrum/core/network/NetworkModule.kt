@@ -3,6 +3,7 @@ package com.einrum.core.network
 import com.einrum.core.network.webrtc.WebRtcClient
 import com.einrum.core.network.webrtc.WebRtcClientImpl
 import org.koin.dsl.module
+import org.webrtc.EglBase
 
 interface RoomService {
     suspend fun createRoom(): String
@@ -39,8 +40,6 @@ class FakeRtcService : RtcService {
     override suspend fun toggleCamera(enabled: Boolean) = Unit
     override suspend fun toggleScreenShare(enabled: Boolean) = Unit
 }
-
-import org.webrtc.EglBase
 
 val networkModule = module {
     single<RoomService> { FakeRoomService() }
