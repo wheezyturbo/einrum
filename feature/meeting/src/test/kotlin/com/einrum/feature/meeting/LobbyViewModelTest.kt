@@ -25,6 +25,7 @@ class LobbyViewModelTest {
     @Before
     fun setup() {
         Dispatchers.setMain(testDispatcher)
+        whenever(meetingService.getRecentContacts()).thenReturn(emptyList())
         viewModel = LobbyViewModel(meetingService)
     }
 
@@ -42,7 +43,7 @@ class LobbyViewModelTest {
     @Test
     fun `when joining meeting succeeds, navigate effect is emitted`() = runTest {
         whenever(meetingService.joinMeeting("123456")).thenReturn(true)
-        
+        viewModel.onIntent(LobbyIntent.UpdateGuestName("Alex"))
         viewModel.onIntent(LobbyIntent.UpdateMeetingId("123456"))
         viewModel.onIntent(LobbyIntent.JoinMeeting)
         
