@@ -1,8 +1,14 @@
 package com.einrum.feature.call
 
-import org.koin.core.module.dsl.viewModelOf
+import org.koin.androidx.viewmodel.dsl.viewModel
 import org.koin.dsl.module
 
 val callModule = module {
-    viewModelOf(::CallViewModel)
+    viewModel { parameters -> 
+        CallViewModel(
+            meetingId = parameters.get(),
+            aiService = get(),
+            webRtcClient = get()
+        )
+    }
 }

@@ -26,6 +26,7 @@ android {
 
 dependencies {
     implementation(project(":core:ai"))
+    implementation(project(":core:network"))
     
     implementation(libs.kotlin.stdlib)
     implementation(platform(libs.compose.bom))
