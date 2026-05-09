@@ -56,7 +56,7 @@ private fun CallContent(
     )
     Box(modifier = Modifier.fillMaxSize().background(bg)) {
         Text(
-            text = "Meeting ${state.meetingId}",
+            text = "Room ${state.meetingId}",
             modifier = Modifier
                 .align(Alignment.TopStart)
                 .padding(16.dp),

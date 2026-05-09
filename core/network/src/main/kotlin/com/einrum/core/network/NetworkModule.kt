@@ -2,50 +2,43 @@ package com.einrum.core.network
 
 import org.koin.dsl.module
 
-interface MeetingService {
-    suspend fun createMeeting(): String
-    suspend fun joinMeeting(id: String): Boolean
-    suspend fun getRecentContacts(): List<MeetingContact>
-    suspend fun addContact(name: String, meetingId: String): Boolean
-    suspend fun removeContact(meetingId: String): Boolean
+interface RoomService {
+    suspend fun createRoom(): String
+    suspend fun joinRoom(id: String): Boolean
 }
 
-data class MeetingContact(
-    val name: String,
-    val meetingId: String
-)
+interface RtcService {
+    suspend fun connectToRoom(roomId: String, displayName: String): Boolean
+    suspend fun leaveRoom()
+    suspend fun toggleMic(enabled: Boolean)
+    suspend fun toggleCamera(enabled: Boolean)
+    suspend fun toggleScreenShare(enabled: Boolean)
+}
 
-class FakeMeetingService : MeetingService {
-    private val activeMeetings = linkedSetOf("123456", "654321", "246810")
-    private val contacts = mutableListOf(
-        MeetingContact(name = "Design Team", meetingId = "123456"),
-        MeetingContact(name = "Daily Standup", meetingId = "654321")
-    )
+class FakeRoomService : RoomService {
+    private val activeRooms = linkedSetOf("123456", "654321", "246810")
 
-    override suspend fun createMeeting(): String {
+    override suspend fun createRoom(): String {
         var id: String
         do {
             id = (100000..999999).random().toString()
-        } while (activeMeetings.contains(id))
-        activeMeetings.add(id)
+        } while (activeRooms.contains(id))
+        activeRooms.add(id)
         return id
     }
 
-    override suspend fun joinMeeting(id: String): Boolean = activeMeetings.contains(id)
+    override suspend fun joinRoom(id: String): Boolean = activeRooms.contains(id)
+}
 
-    override suspend fun getRecentContacts(): List<MeetingContact> = contacts.toList()
-
-    override suspend fun addContact(name: String, meetingId: String): Boolean {
-        if (name.isBlank() || meetingId.length != 6 || !meetingId.all { it.isDigit() }) return false
-        if (!activeMeetings.contains(meetingId)) return false
-        if (contacts.any { it.meetingId == meetingId }) return true
-        contacts.add(0, MeetingContact(name = name, meetingId = meetingId))
-        return true
-    }
-
-    override suspend fun removeContact(meetingId: String): Boolean = contacts.removeAll { it.meetingId == meetingId }
+class FakeRtcService : RtcService {
+    override suspend fun connectToRoom(roomId: String, displayName: String): Boolean = true
+    override suspend fun leaveRoom() = Unit
+    override suspend fun toggleMic(enabled: Boolean) = Unit
+    override suspend fun toggleCamera(enabled: Boolean) = Unit
+    override suspend fun toggleScreenShare(enabled: Boolean) = Unit
 }
 
 val networkModule = module {
-    single<MeetingService> { FakeMeetingService() }
+    single<RoomService> { FakeRoomService() }
+    single<RtcService> { FakeRtcService() }
 }

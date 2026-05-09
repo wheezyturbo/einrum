@@ -12,18 +12,12 @@ import androidx.compose.foundation.layout.fillMaxWidth
 import androidx.compose.foundation.layout.height
 import androidx.compose.foundation.layout.padding
 import androidx.compose.foundation.lazy.LazyColumn
-import androidx.compose.foundation.lazy.items
 import androidx.compose.foundation.shape.RoundedCornerShape
-import androidx.compose.material.icons.Icons
-import androidx.compose.material.icons.filled.Delete
-import androidx.compose.material3.AssistChip
 import androidx.compose.material3.Button
 import androidx.compose.material3.Card
 import androidx.compose.material3.CardDefaults
 import androidx.compose.material3.CircularProgressIndicator
 import androidx.compose.material3.ExperimentalMaterial3Api
-import androidx.compose.material3.Icon
-import androidx.compose.material3.IconButton
 import androidx.compose.material3.MaterialTheme
 import androidx.compose.material3.OutlinedButton
 import androidx.compose.material3.OutlinedTextField
@@ -31,7 +25,6 @@ import androidx.compose.material3.Scaffold
 import androidx.compose.material3.SnackbarHost
 import androidx.compose.material3.SnackbarHostState
 import androidx.compose.material3.Text
-import androidx.compose.material3.TextButton
 import androidx.compose.runtime.Composable
 import androidx.compose.runtime.LaunchedEffect
 import androidx.compose.runtime.getValue
@@ -54,7 +47,7 @@ fun LobbyScreen(
     LaunchedEffect(Unit) {
         viewModel.effects.collect { effect ->
             when (effect) {
-                is LobbyEffect.NavigateToCall -> onNavigateToCall(effect.meetingId)
+                is LobbyEffect.NavigateToCall -> onNavigateToCall(effect.roomId)
                 is LobbyEffect.ShowError -> snackbarHostState.showSnackbar(effect.message)
             }
         }
@@ -100,13 +93,13 @@ private fun LobbyContent(
             ) {
                 item {
                     Text(
-                        text = "Einrum Calls",
+                        text = "Einrum Rooms",
                         style = MaterialTheme.typography.headlineLarge,
                         color = Color.White
                     )
                     Spacer(modifier = Modifier.height(4.dp))
                     Text(
-                        text = "Create, join, and manage call contacts from one place.",
+                        text = "Create a room or join an existing room for audio, video, and screen sharing.",
                         style = MaterialTheme.typography.bodyLarge,
                         color = Color(0xFFD9E2EC)
                     )
@@ -134,61 +127,32 @@ private fun LobbyContent(
                                 enabled = !state.isJoining
                             )
                             OutlinedTextField(
-                                value = state.meetingId,
-                                onValueChange = { onIntent(LobbyIntent.UpdateMeetingId(it)) },
-                                label = { Text("Meeting Code") },
+                                value = state.roomId,
+                                onValueChange = { onIntent(LobbyIntent.UpdateRoomId(it)) },
+                                label = { Text("Room ID") },
                                 singleLine = true,
                                 modifier = Modifier.fillMaxWidth(),
                                 enabled = !state.isJoining
                             )
                             Row(horizontalArrangement = Arrangement.spacedBy(10.dp)) {
                                 Button(
-                                    onClick = { onIntent(LobbyIntent.JoinMeeting) },
-                                    enabled = !state.isJoining && state.guestName.isNotBlank() && state.meetingId.length == 6,
+                                    onClick = { onIntent(LobbyIntent.JoinRoom) },
+                                    enabled = !state.isJoining && state.guestName.isNotBlank() && state.roomId.length == 6,
                                     modifier = Modifier.weight(1f)
                                 ) {
                                     if (state.isJoining) {
                                         CircularProgressIndicator(modifier = Modifier.height(18.dp), strokeWidth = 2.dp)
                                     } else {
-                                        Text("Join")
+                                        Text("Join Room")
                                     }
                                 }
                                 OutlinedButton(
-                                    onClick = { onIntent(LobbyIntent.CreateMeeting) },
+                                    onClick = { onIntent(LobbyIntent.CreateRoom) },
                                     enabled = !state.isJoining,
                                     modifier = Modifier.weight(1f)
                                 ) {
-                                    Text("Create")
+                                    Text("Create Room")
                                 }
-                            }
-                        }
-                    }
-                }
-
-                item {
-                    Card(
-                        shape = RoundedCornerShape(20.dp),
-                        colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.1f))
-                    ) {
-                        Column(
-                            modifier = Modifier
-                                .fillMaxWidth()
-                                .padding(16.dp),
-                            verticalArrangement = Arrangement.spacedBy(10.dp)
-                        ) {
-                            Text("Save Contact", style = MaterialTheme.typography.titleMedium, color = Color.White)
-                            OutlinedTextField(
-                                value = state.contactName,
-                                onValueChange = { onIntent(LobbyIntent.UpdateContactName(it)) },
-                                label = { Text("Contact Name") },
-                                singleLine = true,
-                                modifier = Modifier.fillMaxWidth()
-                            )
-                            TextButton(
-                                onClick = { onIntent(LobbyIntent.SaveContact) },
-                                enabled = state.meetingId.length == 6
-                            ) {
-                                Text("Save current meeting code")
                             }
                         }
                     }
@@ -196,50 +160,10 @@ private fun LobbyContent(
 
                 item {
                     Text(
-                        text = "Saved Contacts",
-                        style = MaterialTheme.typography.titleLarge,
-                        color = Color.White
+                        text = "Next: wire LiveKit/Daily/Agora SDK to the RTC service for real calls.",
+                        color = Color(0xFFD9E2EC),
+                        style = MaterialTheme.typography.bodyMedium
                     )
-                }
-
-                if (state.contacts.isEmpty()) {
-                    item {
-                        Text(
-                            text = "No contacts yet. Create a meeting and save it.",
-                            color = Color(0xFFD9E2EC)
-                        )
-                    }
-                } else {
-                    items(state.contacts, key = { it.meetingId }) { contact ->
-                        Card(
-                            shape = RoundedCornerShape(18.dp),
-                            colors = CardDefaults.cardColors(containerColor = Color.White.copy(alpha = 0.1f))
-                        ) {
-                            Row(
-                                modifier = Modifier
-                                    .fillMaxWidth()
-                                    .padding(12.dp),
-                                horizontalArrangement = Arrangement.SpaceBetween
-                            ) {
-                                Column(modifier = Modifier.weight(1f)) {
-                                    Text(contact.name, color = Color.White, style = MaterialTheme.typography.titleMedium)
-                                    Text(
-                                        "Code: ${contact.meetingId}",
-                                        color = Color(0xFFD9E2EC),
-                                        style = MaterialTheme.typography.bodySmall
-                                    )
-                                    Spacer(modifier = Modifier.height(8.dp))
-                                    AssistChip(
-                                        onClick = { onIntent(LobbyIntent.JoinFromContact(contact.meetingId)) },
-                                        label = { Text("Join") }
-                                    )
-                                }
-                                IconButton(onClick = { onIntent(LobbyIntent.RemoveContact(contact.meetingId)) }) {
-                                    Icon(Icons.Filled.Delete, contentDescription = "Delete contact", tint = Color.White)
-                                }
-                            }
-                        }
-                    }
                 }
             }
         }

@@ -1,6 +1,6 @@
 package com.einrum.feature.meeting
 
-import com.einrum.core.network.MeetingService
+import com.einrum.core.network.RoomService
 import kotlinx.coroutines.Dispatchers
 import kotlinx.coroutines.ExperimentalCoroutinesApi
 import kotlinx.coroutines.test.StandardTestDispatcher
@@ -8,7 +8,6 @@ import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
-import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -20,16 +19,13 @@ import org.mockito.kotlin.whenever
 class LobbyViewModelTest {
 
     private val testDispatcher = StandardTestDispatcher()
-    private val meetingService: MeetingService = mock()
+    private val roomService: RoomService = mock()
     private lateinit var viewModel: LobbyViewModel
 
     @Before
     fun setup() {
         Dispatchers.setMain(testDispatcher)
-        runBlocking {
-            whenever(meetingService.getRecentContacts()).thenReturn(emptyList())
-        }
-        viewModel = LobbyViewModel(meetingService)
+        viewModel = LobbyViewModel(roomService)
     }
 
     @After
@@ -38,17 +34,17 @@ class LobbyViewModelTest {
     }
 
     @Test
-    fun `when updating meeting id, state is updated`() = runTest {
-        viewModel.onIntent(LobbyIntent.UpdateMeetingId("123456"))
-        assertEquals("123456", viewModel.state.value.meetingId)
+    fun `when updating room id, state is updated`() = runTest {
+        viewModel.onIntent(LobbyIntent.UpdateRoomId("123456"))
+        assertEquals("123456", viewModel.state.value.roomId)
     }
 
     @Test
-    fun `when joining meeting succeeds, navigate effect is emitted`() = runTest {
-        whenever(meetingService.joinMeeting("123456")).thenReturn(true)
+    fun `when joining room succeeds, loading state clears`() = runTest {
+        whenever(roomService.joinRoom("123456")).thenReturn(true)
         viewModel.onIntent(LobbyIntent.UpdateGuestName("Alex"))
-        viewModel.onIntent(LobbyIntent.UpdateMeetingId("123456"))
-        viewModel.onIntent(LobbyIntent.JoinMeeting)
+        viewModel.onIntent(LobbyIntent.UpdateRoomId("123456"))
+        viewModel.onIntent(LobbyIntent.JoinRoom)
         
         advanceUntilIdle()
         
