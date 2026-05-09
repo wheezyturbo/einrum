@@ -8,6 +8,7 @@ import kotlinx.coroutines.test.advanceUntilIdle
 import kotlinx.coroutines.test.resetMain
 import kotlinx.coroutines.test.runTest
 import kotlinx.coroutines.test.setMain
+import kotlinx.coroutines.runBlocking
 import org.junit.After
 import org.junit.Assert.assertEquals
 import org.junit.Before
@@ -25,7 +26,9 @@ class LobbyViewModelTest {
     @Before
     fun setup() {
         Dispatchers.setMain(testDispatcher)
-        whenever(meetingService.getRecentContacts()).thenReturn(emptyList())
+        runBlocking {
+            whenever(meetingService.getRecentContacts()).thenReturn(emptyList())
+        }
         viewModel = LobbyViewModel(meetingService)
     }
 
