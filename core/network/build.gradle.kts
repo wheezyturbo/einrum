@@ -23,4 +23,6 @@ android {
 dependencies {
     implementation(libs.kotlin.stdlib)
     implementation(libs.koin.android)
+    implementation(libs.coroutines.android)
+    api(libs.webrtc.android)
 }

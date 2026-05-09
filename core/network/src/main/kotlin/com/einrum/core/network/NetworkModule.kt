@@ -41,4 +41,12 @@ class FakeRtcService : RtcService {
 val networkModule = module {
     single<RoomService> { FakeRoomService() }
     single<RtcService> { FakeRtcService() }
+    single<WebRtcClient> { WebRtcClientImpl(get()) }
+}
+.core.network.webrtc.WebRtcClientImpl
+
+val networkModule = module {
+    single<RoomService> { FakeRoomService() }
+    single<RtcService> { FakeRtcService() }
+    single<WebRtcClient> { WebRtcClientImpl(get()) }
 }

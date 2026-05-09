@@ -1,6 +1,7 @@
 package com.einrum.feature.call
 
 import androidx.compose.runtime.Immutable
+import org.webrtc.VideoTrack
 
 @Immutable
 data class CallState(
@@ -9,7 +10,7 @@ data class CallState(
     val isCameraEnabled: Boolean = true,
     val isBlurEnabled: Boolean = false,
     val participants: List<Participant> = emptyList(),
-    val localStream: VideoStream? = null
+    val localStream: VideoTrack? = null
 )
 
 @Immutable
@@ -18,13 +19,8 @@ data class Participant(
     val name: String,
     val isCameraEnabled: Boolean,
     val isMicEnabled: Boolean,
-    val videoStream: VideoStream? = null
+    val videoStream: VideoTrack? = null
 )
-
-sealed interface VideoStream {
-    data object Local : VideoStream
-    data class Remote(val participantId: String) : VideoStream
-}
 
 sealed interface CallIntent {
     data object ToggleMic : CallIntent

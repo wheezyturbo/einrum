@@ -24,14 +24,40 @@ import androidx.compose.ui.graphics.Color
 import androidx.compose.ui.unit.dp
 import androidx.lifecycle.compose.collectAsStateWithLifecycle
 
+import android.Manifest
+import android.content.pm.PackageManager
+import androidx.activity.compose.rememberLauncherForActivityResult
+import androidx.activity.result.contract.ActivityResultContracts
+import androidx.compose.ui.platform.LocalContext
+import androidx.core.content.ContextCompat
+
 @Composable
 fun CallScreen(
     viewModel: CallViewModel,
     onNavigateBack: () -> Unit
 ) {
     val state by viewModel.state.collectAsStateWithLifecycle()
+    val context = LocalContext.current
+    var hasPermissions by remember {
+        mutableStateOf(
+            ContextCompat.checkSelfPermission(context, Manifest.permission.CAMERA) == PackageManager.PERMISSION_GRANTED &&
+            ContextCompat.checkSelfPermission(context, Manifest.permission.RECORD_AUDIO) == PackageManager.PERMISSION_GRANTED
+        )
+    }
+
+    val permissionLauncher = rememberLauncherForActivityResult(
+        contract = ActivityResultContracts.RequestMultiplePermissions()
+    ) { permissions ->
+        hasPermissions = permissions[Manifest.permission.CAMERA] == true &&
+                         permissions[Manifest.permission.RECORD_AUDIO] == true
+    }
 
     LaunchedEffect(Unit) {
+        if (!hasPermissions) {
+            permissionLauncher.launch(
+                arrayOf(Manifest.permission.CAMERA, Manifest.permission.RECORD_AUDIO)
+            )
+        }
         viewModel.effects.collect { effect ->
             when (effect) {
                 CallEffect.NavigateBack -> onNavigateBack()
@@ -40,10 +66,17 @@ fun CallScreen(
         }
     }
 
-    CallContent(
-        state = state,
-        onIntent = viewModel::onIntent
-    )
+    if (hasPermissions) {
+        CallContent(
+            state = state,
+            onIntent = viewModel::onIntent
+        )
+    } else {
+        // Privacy Fallback / Loading
+        Box(modifier = Modifier.fillMaxSize().background(Color(0xFF04070E)), contentAlignment = Alignment.Center) {
+            Text("Requesting Privacy Permissions...", color = Color.White)
+        }
+    }
 }
 
 @Composable
@@ -79,6 +112,25 @@ private fun CallContent(
             }
         }
 
+        // Local Stream PiP
+        if (state.isCameraEnabled && state.localStream != null) {
+            Surface(
+                modifier = Modifier
+                    .align(Alignment.BottomEnd)
+                    .padding(end = 16.dp, bottom = 120.dp)
+                    .size(100.dp, 150.dp)
+                    .clip(RoundedCornerShape(12.dp)),
+                color = Color.Black,
+                tonalElevation = 12.dp,
+                shadowElevation = 8.dp
+            ) {
+                VideoRenderer(
+                    videoTrack = state.localStream,
+                    modifier = Modifier.fillMaxSize()
+                )
+            }
+        }
+
         // Call Controls
         CallControls(
             isMicEnabled = state.isMicEnabled,
@@ -101,8 +153,13 @@ private fun ParticipantItem(participant: Participant) {
         color = Color(0x332A3446)
     ) {
         Box(contentAlignment = Alignment.Center) {
-            if (participant.isCameraEnabled) {
-                // Placeholder for Video Stream
+            if (participant.isCameraEnabled && participant.videoStream != null) {
+                VideoRenderer(
+                    videoTrack = participant.videoStream,
+                    modifier = Modifier.fillMaxSize()
+                )
+            } else if (participant.isCameraEnabled) {
+                // Connecting / Loading placeholder
                 Box(modifier = Modifier.fillMaxSize().background(Color(0xFF3A4B68)))
             } else {
                 Text(

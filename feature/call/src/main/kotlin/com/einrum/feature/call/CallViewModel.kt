@@ -1,6 +1,7 @@
 package com.einrum.feature.call
 
 import com.einrum.core.ai.AiService
+import com.einrum.core.network.webrtc.WebRtcClient
 import androidx.lifecycle.ViewModel
 import androidx.lifecycle.viewModelScope
 import kotlinx.coroutines.flow.MutableSharedFlow
@@ -14,7 +15,8 @@ import kotlinx.coroutines.launch
 
 class CallViewModel(
     private val meetingId: String,
-    private val aiService: AiService
+    private val aiService: AiService,
+    private val webRtcClient: WebRtcClient
 ) : ViewModel() {
 
     private val _state = MutableStateFlow(CallState(meetingId = meetingId))
@@ -24,17 +26,23 @@ class CallViewModel(
     val effects: SharedFlow<CallEffect> = _effects.asSharedFlow()
 
     init {
-        // Initialize call and streams
-        _state.update { it.copy(localStream = VideoStream.Local) }
-        
-        // Mock participants
-        _state.update {
-            it.copy(
-                participants = listOf(
-                    Participant("1", "Alex", true, true, VideoStream.Remote("1")),
-                    Participant("2", "Jordan", false, true, null)
-                )
-            )
+        viewModelScope.launch {
+            webRtcClient.initialize()
+        }
+
+        viewModelScope.launch {
+            webRtcClient.localVideoTrack.collect { track ->
+                _state.update { it.copy(localStream = track) }
+            }
+        }
+
+        viewModelScope.launch {
+            webRtcClient.remoteVideoTracks.collect { tracks ->
+                val newParticipants = tracks.map { (id, track) ->
+                    Participant(id, "User $id", isCameraEnabled = true, isMicEnabled = true, videoStream = track)
+                }
+                _state.update { it.copy(participants = newParticipants) }
+            }
         }
     }
 
@@ -48,11 +56,19 @@ class CallViewModel(
     }
 
     private fun toggleMic() {
-        _state.update { it.copy(isMicEnabled = !it.isMicEnabled) }
+        val nextState = !state.value.isMicEnabled
+        _state.update { it.copy(isMicEnabled = nextState) }
+        viewModelScope.launch {
+            webRtcClient.toggleMic(nextState)
+        }
     }
 
     private fun toggleCamera() {
-        _state.update { it.copy(isCameraEnabled = !it.isCameraEnabled) }
+        val nextState = !state.value.isCameraEnabled
+        _state.update { it.copy(isCameraEnabled = nextState) }
+        viewModelScope.launch {
+            webRtcClient.toggleCamera(nextState)
+        }
     }
 
     private fun toggleBlur() {
@@ -61,6 +77,7 @@ class CallViewModel(
 
     private fun leaveCall() {
         viewModelScope.launch {
+            webRtcClient.disconnect()
             _effects.emit(CallEffect.NavigateBack)
         }
     }
