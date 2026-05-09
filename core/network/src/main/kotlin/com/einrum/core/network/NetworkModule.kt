@@ -40,8 +40,11 @@ class FakeRtcService : RtcService {
     override suspend fun toggleScreenShare(enabled: Boolean) = Unit
 }
 
+import org.webrtc.EglBase
+
 val networkModule = module {
     single<RoomService> { FakeRoomService() }
     single<RtcService> { FakeRtcService() }
-    single<WebRtcClient> { WebRtcClientImpl(get()) }
+    single<EglBase> { EglBase.create() }
+    single<WebRtcClient> { WebRtcClientImpl(get(), get<EglBase>().eglBaseContext) }
 }
