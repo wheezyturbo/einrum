@@ -1,13 +1,14 @@
 {
   "project_info": {
-    "project_number": "123456789012",
-    "project_id": "einrum-placeholder",
-    "storage_bucket": "einrum-placeholder.appspot.com"
+    "project_number": "702694255693",
+    "firebase_url": "https://tourism-5d0bc-default-rtdb.firebaseio.com",
+    "project_id": "tourism-5d0bc",
+    "storage_bucket": "tourism-5d0bc.firebasestorage.app"
   },
   "client": [
     {
       "client_info": {
-        "mobilesdk_app_id": "1:123456789012:android:abcdef1234567890",
+        "mobilesdk_app_id": "1:702694255693:android:f3dafbfec4acfd672e0004",
         "android_client_info": {
           "package_name": "com.einrum"
         }
@@ -15,7 +16,7 @@
       "oauth_client": [],
       "api_key": [
         {
-          "current_key": "AIzaSyDummyKey-Fake-Api-Key-For-Build"
+          "current_key": "AIzaSyA3mE96R2XL9vlf0UkWA6pER2TR0Y_qdEY"
         }
       ],
       "services": {
