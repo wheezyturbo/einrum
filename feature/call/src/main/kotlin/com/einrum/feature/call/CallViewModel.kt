@@ -27,7 +27,7 @@ class CallViewModel(
 
     init {
         viewModelScope.launch {
-            webRtcClient.initialize()
+            webRtcClient.initialize(meetingId)
         }
 
         viewModelScope.launch {

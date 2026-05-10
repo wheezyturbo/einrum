@@ -25,4 +25,8 @@ dependencies {
     implementation(libs.koin.android)
     implementation(libs.coroutines.android)
     api(libs.webrtc.android)
+    
+    implementation(platform(libs.firebase.bom))
+    implementation(libs.firebase.database)
+    implementation(libs.gson)
 }

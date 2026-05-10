@@ -1,5 +1,7 @@
 package com.einrum.core.network
 
+import com.einrum.core.network.webrtc.FirebaseSignalingClient
+import com.einrum.core.network.webrtc.SignalingClient
 import com.einrum.core.network.webrtc.WebRtcClient
 import com.einrum.core.network.webrtc.WebRtcClientImpl
 import org.koin.dsl.module
@@ -45,5 +47,6 @@ val networkModule = module {
     single<RoomService> { FakeRoomService() }
     single<RtcService> { FakeRtcService() }
     single<EglBase> { EglBase.create() }
-    single<WebRtcClient> { WebRtcClientImpl(get(), get<EglBase>().eglBaseContext) }
+    single<SignalingClient> { FirebaseSignalingClient() }
+    single<WebRtcClient> { WebRtcClientImpl(get(), get<EglBase>().eglBaseContext, get()) }
 }
